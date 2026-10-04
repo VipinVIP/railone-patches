@@ -7,7 +7,7 @@ passenger app by CRIS.
 > Built with [morphe-patcher](https://github.com/MorpheApp/morphe-patcher); "Morphe" is
 > referenced only to describe compatibility, as required by the Morphe NOTICE.
 
-## ❓ What the patches do
+## What the patches do
 
 | Patch | Effect |
 |---|---|
@@ -19,7 +19,7 @@ passenger app by CRIS.
 All four are enabled by default. They matter if you run RailOne on a device where USB debugging
 or developer options are switched on - the stock app treats that as tampering.
 
-## ✅ Supported versions
+## Supported versions
 
 | Version | Status |
 |---|---|
@@ -31,7 +31,7 @@ The fingerprints match on string constants and framework API calls (e.g. `"nativ
 `System.loadLibrary`, `"adb_enabled"` + `Settings$Global.getInt`), never on obfuscated class or
 method names - so they survive the per-release re-obfuscation that renames everything.
 
-## 📲 Using it
+## Using it
 
 Add this repository as a patch source in Morphe:
 
@@ -40,7 +40,7 @@ Add this repository as a patch source in Morphe:
 
 You supply the app yourself - export the APK/splits from your own installed copy, or get them
 from a source you trust. The bundle pins the genuine Play signing certificate (SHA-256
-`8a5f21a0…f0d16`), so Morphe rejects a wrong or modified original.
+`8a5f21a0...f0d16`), so Morphe rejects a wrong or modified original.
 
 **Install notes**
 
@@ -50,7 +50,7 @@ from a source you trust. The bundle pins the genuine Play signing certificate (S
 - After that, repatches keep your data **as long as Manager keeps signing with the same
   keystore**. Import your keystore into Manager once and the install stays upgrade-compatible.
 
-## 🛠️ Building locally
+## Building locally
 
 Needs JDK 21, an Android SDK, and a GitHub token with `read:packages` - the Morphe Gradle plugin
 and `morphe-patcher` are served from GitHub Packages, which rejects even public reads:
@@ -90,7 +90,7 @@ Version 1.0.0 was checked end to end on a Motorola Edge 50 Neo: the Morphe CLI a
 patches to the real 2.1.66 split bundle, the merged APK installed as an in-place upgrade, and the
 app stayed alive with USB debugging enabled - no anti-tamper wipe, no native-library failure.
 
-## 📜 Licence and credits
+## Licence and credits
 
 GPL-3.0 - see [LICENSE](LICENSE) and [NOTICE](NOTICE). The patch API is the work of the Morphe
 project (itself a fork of ReVanced Patcher). This repository is an independent derivative and
