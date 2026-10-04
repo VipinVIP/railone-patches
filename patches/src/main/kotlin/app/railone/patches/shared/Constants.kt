@@ -6,7 +6,7 @@ import app.morphe.patcher.patch.Compatibility
 
 object Constants {
     /**
-     * RailOne (Aikyam) — org.cris.aikyam, Centre for Railway Information Systems.
+     * RailOne (Aikyam) - org.cris.aikyam, Centre for Railway Information Systems.
      *
      * - `signatures` is the SHA-256 of the **unmodified Play-signed** APK, so Morphe Manager can
      *   refuse to patch anything that is not the genuine original file.

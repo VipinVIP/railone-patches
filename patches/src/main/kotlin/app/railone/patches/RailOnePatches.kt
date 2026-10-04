@@ -6,7 +6,7 @@ import app.railone.patches.shared.Constants.COMPATIBILITY_RAILONE
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 
 /**
- * RailOne / Aikyam (org.cris.aikyam) — bypass the app's anti-tamper checks.
+ * RailOne / Aikyam (org.cris.aikyam) - bypass the app's anti-tamper checks.
  *
  * What the app does when it does not like the running build:
  *  - the native `libnative-lib.so` SDK (loaded from `AikyamApplication.onCreate`) detects USB

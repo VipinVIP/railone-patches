@@ -11,17 +11,17 @@ import com.android.tools.smali.dexlib2.Opcode
 /**
  * Fingerprints for RailOne (org.cris.aikyam).
  *
- * Every release re-obfuscates the class and method names (v2.1.58 `FUOfuro$J4Wu0l` →
- * v2.1.62 `Qr79t$OXTLsup` → v2.1.66 `TKhyfW$Xn1IRSv`), so nothing here may reference an
+ * Every release re-obfuscates the class and method names (v2.1.58 `FUOfuro$J4Wu0l` ->
+ * v2.1.62 `Qr79t$OXTLsup` -> v2.1.66 `TKhyfW$Xn1IRSv`), so nothing here may reference an
  * obfuscated name. Match on the string constants and the framework APIs the checks call
- * instead — those are stable.
+ * instead - those are stable.
  *
  * Each fingerprint below was verified to match exactly one method in v2.1.66
  * (116,418 methods across 21,574 smali files scanned).
  */
 
 /**
- * `com.example.aikyam.AikyamApplication.onCreate()` — the only place `libnative-lib.so`
+ * `com.example.aikyam.AikyamApplication.onCreate()` - the only place `libnative-lib.so`
  * is loaded. That native SDK performs the anti-tamper check and calls
  * `clearApplicationUserData()` from C++ when it dislikes the build.
  *
@@ -40,7 +40,7 @@ object ApplicationOnCreateFingerprint : Fingerprint(
 )
 
 /**
- * `adb_enabled` check — read from Settings.Global and returned as a boolean.
+ * `adb_enabled` check - read from Settings.Global and returned as a boolean.
  * Flutter calls this over the MethodChannel, independently of the native SDK.
  */
 object AdbEnabledFingerprint : Fingerprint(
@@ -55,7 +55,7 @@ object AdbEnabledFingerprint : Fingerprint(
     )
 )
 
-/** `adb_wifi_enabled` — wireless debugging check. */
+/** `adb_wifi_enabled` - wireless debugging check. */
 object AdbWifiEnabledFingerprint : Fingerprint(
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
     returnType = "Z",
@@ -69,7 +69,7 @@ object AdbWifiEnabledFingerprint : Fingerprint(
 )
 
 /**
- * `development_settings_enabled` — read with the two-argument `getInt` overload
+ * `development_settings_enabled` - read with the two-argument `getInt` overload
  * (no default value), which is why it needs its own filter shape.
  */
 object DevelopmentSettingsEnabledFingerprint : Fingerprint(
@@ -106,7 +106,7 @@ object SignatureVerificationFingerprint : Fingerprint(
  * enough on its own.
  *
  * The library package `com/emrys/rjsniffer/rjsniffer/` is stable even though the class name is
- * not (TEEjfELP → BoRK2H → WiYOP6), so the fingerprint is scoped to that package.
+ * not (TEEjfELP -> BoRK2H -> WiYOP6), so the fingerprint is scoped to that package.
  *
  * NOTE: `definingClass` must be a real dex type descriptor. A *leading colon* declaration like
  * ":com/emrys/rjsniffer/rjsniffer/" (which the patcher docs suggest for packages) resolves to a
