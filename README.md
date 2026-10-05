@@ -91,6 +91,11 @@ the source manifest Morphe Manager fetches from
 in Manager fails outright, because the manager parses `created_at` as a timestamp. Keep all three
 filled and pointing at the current release.
 
+`CHANGELOG.md` must exist too. Manager derives its changelog URL from the manifest endpoint
+(`.../<owner>/<repo>/<branch>/CHANGELOG.md`) and shows "Metadata N/A" plus a failed changelog when
+the file is missing. Both this file and `patches-bundle.json` were maintained by the
+semantic-release pipeline upstream, so deleting that pipeline means maintaining both by hand.
+
 ## Verification
 
 Version 1.0.0 was checked end to end on a Motorola Edge 50 Neo: the Morphe CLI applied all four
