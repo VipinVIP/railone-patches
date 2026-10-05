@@ -52,8 +52,10 @@ a release is not just a tag:
    should mean "verified", not "compiled".
 3. Update `CHANGELOG.md` with the release notes.
 4. Update `patches-bundle.json`: `version`, `download_url` (pointing at the new release asset) and
-   `created_at`. Morphe Manager parses `created_at` as a timestamp, and blank fields make the
-   source impossible to add.
+   `created_at`. Morphe Manager parses `created_at` as a **local** timestamp, so it must look like
+   `2026-10-04T05:09:58`: a timezone suffix such as `Z` or `+05:30` makes the manager fail to
+   deserialize the whole manifest, which shows up as a source with "Metadata N/A" and 0 patches.
+   Blank fields break the source in the same way.
 5. Commit, tag, and create the release, attaching `patches-<version>.mpp`.
 
 Steps 3 and 4 exist because this repository has no semantic-release pipeline; upstream they are
