@@ -2,6 +2,8 @@ package app.railone.patches
 
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.InstructionLocation.MatchAfterImmediately
+import app.morphe.patcher.fieldAccess
+import app.morphe.patcher.literal
 import app.morphe.patcher.methodCall
 import app.morphe.patcher.opcode
 import app.morphe.patcher.string
@@ -127,3 +129,69 @@ object RjsnifferAdbCheckFingerprint : Fingerprint(
         opcode(Opcode.MOVE_RESULT, MatchAfterImmediately())
     )
 )
+
+/**
+ * `com.example.aikyam.native.WavesActivity.onCreate()` - the app's generic in-app WebView (it reads
+ * a `url` and a `headers` extra from the Intent, so every page routed through it inherits this).
+ * It applies `window.setFlags(FLAG_SECURE, FLAG_SECURE)` unconditionally, which is what makes
+ * screenshots of those pages come out black. The class name is not obfuscated.
+ *
+ * Verified: exactly one method in v2.1.66 matched `onCreate(Bundle)V`, `public`, with a `0x2000`
+ * literal and a `Window.setFlags(II)` call (116,418 methods scanned).
+ */
+object WavesActivityFlagSecureFingerprint : Fingerprint(
+    definingClass = "Lcom/example/aikyam/native/WavesActivity;",
+    name = "onCreate",
+    accessFlags = listOf(AccessFlags.PUBLIC),
+    returnType = "V",
+    parameters = listOf("Landroid/os/Bundle;"),
+    filters = listOf(
+        literal(0x2000),
+        methodCall(smali = "Landroid/view/Window;->setFlags(II)V")
+    )
+)
+
+/**
+ * The bundled `no_screenshot` Flutter plugin's FLAG_SECURE applier: the helper behind
+ * `screenshotOff`, `toggleScreenshot`, `screenshotWith*` and `restoreScreenshotState`. It takes the
+ * plugin's current activity, calls `Window.addFlags(0x2000)` and reports success.
+ *
+ * The plugin class and method names are re-obfuscated every release (`n3jvmusq/VYgyPFQ7` ->
+ * `q8dcpz/CRKt1zd`), so this matches on shape only: no parameters, returns a boolean, a `0x2000`
+ * literal and a `Window.addFlags(I)` call. Verified unique in v2.1.66.
+ */
+object PluginFlagSecureFingerprint : Fingerprint(
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "Z",
+    parameters = listOf(),
+    filters = listOf(
+        literal(0x2000),
+        methodCall(smali = "Landroid/view/Window;->addFlags(I)V")
+    )
+)
+
+/**
+ * The same plugin's listener registration: it wires a ContentObserver onto
+ * `MediaStore.Images.Media.EXTERNAL_CONTENT_URI`, whose `onChange` reports every newly saved image
+ * to the Flutter layer as a "screenshot taken" event. Returning early from this method means the
+ * observer is never registered, which removes the detection at its root.
+ *
+ * Filter order follows the instruction order in the method: the `EXTERNAL_CONTENT_URI` field read
+ * comes before the `registerContentObserver` call. Verified unique in v2.1.66.
+ */
+object ScreenshotObserverRegistrationFingerprint : Fingerprint(
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "V",
+    parameters = listOf(),
+    filters = listOf(
+        fieldAccess(
+            opcode = Opcode.SGET_OBJECT,
+            definingClass = "Landroid/provider/MediaStore\$Images\$Media;",
+            name = "EXTERNAL_CONTENT_URI"
+        ),
+        methodCall(
+            smali = "Landroid/content/ContentResolver;->registerContentObserver(Landroid/net/Uri;ZLandroid/database/ContentObserver;)V"
+        )
+    )
+)
+
