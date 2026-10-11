@@ -48,9 +48,11 @@ echo
 echo "=== bundle ==="
 ls -lh patches/build/libs/*.mpp
 echo
-if unzip -l patches/build/libs/patches-*.mpp | grep -q "classes.dex"; then
-    echo "OK: bundle contains classes.dex (loadable by Morphe Manager on Android)"
+# NOTE: `unzip -l a.mpp b.mpp` lists *members* named b.mpp inside a.mpp - always test one file.
+BUNDLE="$(ls patches/build/libs/patches-*.mpp | grep -v -e '-sources.mpp' -e '-javadoc.mpp' | head -1)"
+if unzip -l "$BUNDLE" | grep -q "classes\.dex"; then
+    echo "OK: $BUNDLE contains classes.dex (loadable by Morphe Manager on Android)"
 else
-    echo "!! bundle has NO classes.dex - the Android Manager will refuse it. Re-run buildAndroid." >&2
+    echo "!! $BUNDLE has NO classes.dex - the Android Manager will refuse it. Re-run buildAndroid." >&2
     exit 1
 fi
