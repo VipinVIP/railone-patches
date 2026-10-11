@@ -32,8 +32,25 @@ echo "GRADLE:  $GRADLE_BIN"
 echo "ANDROID: $ANDROID_HOME"
 echo "ACTOR:   $GITHUB_ACTOR"
 
-"$GRADLE_BIN" --no-daemon :patches:buildAndroid "$@"
+# Order and forcing matter. :patches:generatePatchesList depends on :patches:build -> :patches:jar,
+# which rewrites patches-<version>.mpp as a plain class jar; :patches:buildAndroid is the task that
+# compiles the patches to DEX and merges classes.dex into that same file. Two consequences:
+#   - the Android Morphe Manager needs classes.dex and refuses a bundle without it
+#     ("IllegalStateException: Patch bundle is missing dex entries" in its log)
+#   - the desktop CLI does NOT catch this, because on a JVM it loads the .class files happily
+# buildAndroid tracks its own outputs and reports UP-TO-DATE even when jar has just overwritten the
+# bundle with a dex-less one, so it must be forced with --rerun; deleting the file is not enough.
+rm -f patches/build/libs/patches-*.mpp
+"$GRADLE_BIN" --no-daemon :patches:generatePatchesList
+"$GRADLE_BIN" --no-daemon :patches:buildAndroid --rerun
 
 echo
 echo "=== bundle ==="
 ls -lh patches/build/libs/*.mpp
+echo
+if unzip -l patches/build/libs/patches-*.mpp | grep -q "classes.dex"; then
+    echo "OK: bundle contains classes.dex (loadable by Morphe Manager on Android)"
+else
+    echo "!! bundle has NO classes.dex - the Android Manager will refuse it. Re-run buildAndroid." >&2
+    exit 1
+fi
