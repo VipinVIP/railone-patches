@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-11T12:33:33",
-  "description": "## 1.1.1 (2026-10-11)\n* Re-release of 1.1.0 with a bundle Morphe Manager can actually load. The 1.1.0 asset was built in the wrong task order and shipped without classes.dex, so Manager rejected it (\"Patch bundle is missing dex entries\") and marked the source failed.\n* Patches are unchanged: Allow screenshots, Hide screenshot detection, plus the four anti-tamper bypasses.\n* If your source shows as failed or lists no patches, update it (or delete and re-add) to pick this up - Manager only re-downloads a bundle when the version changes.\n* Verified in Morphe Manager on an emulator: source loads, 6/6 patches apply to the original Play-signed APK, and the output carries all three screenshot edits plus the 1.0.0 anti-tamper patches.",
+  "description": "## [1.1.1](https://github.com/VipinVIP/railone-patches/compare/v1.1.0...v1.1.1) (2026-10-11)\n\n### \ud83d\udc1b Bug Fixes\n\n* **Source:** Re-release, no patch changes - the 1.1.0 download was missing classes.dex and could not load. Update the source if it showed as failed.",
   "download_url": "https://github.com/VipinVIP/railone-patches/releases/download/v1.1.1/patches-1.1.1.mpp",
   "signature_download_url": "",
   "version": "1.1.1"
