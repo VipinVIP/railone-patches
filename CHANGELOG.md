@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.1.1 (2026-10-11)
+
+Re-release of 1.1.0. No patch behaviour changed: the 1.1.0 release was published with a bundle that
+had been built in the wrong task order and was **missing `classes.dex`**, so Morphe Manager could not
+load it (`IllegalStateException: Patch bundle is missing dex entries`) and marked the source failed.
+The desktop CLI never noticed, because on a JVM it loads the `.class` entries instead.
+
+- `build.sh` now runs `generatePatchesList` before `buildAndroid`, forces `buildAndroid --rerun`
+  (it reports UP-TO-DATE even after the jar task overwrites the bundle), and fails the build if the
+  bundle has no `classes.dex`.
+- The release asset was replaced at the time; this version bump exists so that Manager's
+  version-keyed cache re-downloads the bundle. If your source shows as failed or has no patches,
+  update the source (or delete and re-add it) and it will fetch 1.1.1.
+
+Verified: the bundle loads in Morphe Manager on an emulator, patches the original Play-signed
+`railone-2.1.66.apks` (6/6 patches applied), and the Manager's own output was re-disassembled and
+confirmed to carry all three screenshot edits plus the 1.0.0 anti-tamper patches.
+
 ## 1.1.0 (2026-10-11)
 
 Two new patches that remove the app's screenshot restrictions. Everything from 1.0.0 is unchanged
