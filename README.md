@@ -15,9 +15,13 @@ passenger app by CRIS.
 | **Bypass USB-debugging detection** | Forces `adb_enabled`, `adb_wifi_enabled` and `development_settings_enabled` to `false`. |
 | **Bypass signature verification** | Forces the app's own signing-certificate check (SHA-256 of the APK signature) to `true`, so a re-signed build is accepted. |
 | **Bypass rjsniffer ADB check** | Neutralises the rjsniffer library's own `adb_enabled` check, which runs in the isolated `:com.emrys.rjsniffer.rjsniffer.Sniffer` process. |
+| **Allow screenshots** | Removes the `FLAG_SECURE` restriction that made screenshots and screen recordings of the app come out black. The in-app WebView (`WavesActivity`) stops applying it, and the bundled `no_screenshot` plugin's own hook is neutered so no screen can re-apply it. |
+| **Hide screenshot detection** | Stops the bundled `no_screenshot` plugin registering its MediaStore observer, so screenshot / screen-recording detection never becomes active and no detection event reaches the app's Flutter layer. |
 
-All four are enabled by default. They matter if you run RailOne on a device where USB debugging
-or developer options are switched on - the stock app treats that as tampering.
+All six are enabled by default. The first four matter if you run RailOne on a device where USB
+debugging or developer options are switched on - the stock app treats that as tampering. The last
+two remove the screenshot block the app applies to its in-app WebView, and the screenshot
+detection it ships with.
 
 ## Supported versions
 
