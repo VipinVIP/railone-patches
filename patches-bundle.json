@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-04T05:09:58",
-  "description": "## 1.0.0 (2026-10-04)\n\n* First release. Patches for RailOne (org.cris.aikyam):\n  * Disable the native security SDK (stops AikyamApplication loading libnative-lib.so, the root cause of the app force-stopping and wiping its own data on a re-signed build)\n  * Bypass USB-debugging detection (adb_enabled, adb_wifi_enabled, development_settings_enabled)\n  * Bypass APK signature verification\n  * Bypass the rjsniffer adb_enabled check in its isolated process\n* Verified on RailOne 2.1.66 (versionCode 237) and 2.1.62, arm64.",
-  "download_url": "https://github.com/VipinVIP/railone-patches/releases/download/v1.0.0/patches-1.0.0.mpp",
+  "created_at": "2026-10-11T12:06:04",
+  "description": "## 1.1.0 (2026-10-11)\n* Adds two patches for RailOne (org.cris.aikyam):\n  * Allow screenshots - the in-app WebView (WavesActivity) no longer applies FLAG_SECURE, and the bundled\n    no_screenshot plugin's own FLAG_SECURE hook is neutered, so screenshots and screen recordings work\n    everywhere and stop coming out black\n  * Hide screenshot detection - the plugin's MediaStore ContentObserver is never registered, so\n    screenshot/screen-recording detection never becomes active\n* Verified on RailOne 2.1.66 (versionCode 237), arm64, Moto Edge 50 Neo / Android 16: bundle applied to the\n  original Play-signed APK with morphe-desktop, output re-disassembled and the edits confirmed, then\n  installed over the previous build (same keystore, data preserved) with real screenshot content and no\n  detection event in logcat.\n* The four anti-tamper patches from 1.0.0 are unchanged.",
+  "download_url": "https://github.com/VipinVIP/railone-patches/releases/download/v1.1.0/patches-1.1.0.mpp",
   "signature_download_url": "",
-  "version": "1.0.0"
+  "version": "1.1.0"
 }
