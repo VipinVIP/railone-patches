@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-11T12:06:04",
-  "description": "## 1.1.0 (2026-10-11)\n* Adds two patches for RailOne (org.cris.aikyam):\n  * Allow screenshots - the in-app WebView (WavesActivity) no longer applies FLAG_SECURE, and the bundled\n    no_screenshot plugin's own FLAG_SECURE hook is neutered, so screenshots and screen recordings work\n    everywhere and stop coming out black\n  * Hide screenshot detection - the plugin's MediaStore ContentObserver is never registered, so\n    screenshot/screen-recording detection never becomes active\n* Verified on RailOne 2.1.66 (versionCode 237), arm64, Moto Edge 50 Neo / Android 16: bundle applied to the\n  original Play-signed APK with morphe-desktop, output re-disassembled and the edits confirmed, then\n  installed over the previous build (same keystore, data preserved) with real screenshot content and no\n  detection event in logcat.\n* The four anti-tamper patches from 1.0.0 are unchanged.",
-  "download_url": "https://github.com/VipinVIP/railone-patches/releases/download/v1.1.0/patches-1.1.0.mpp",
+  "created_at": "2026-10-11T12:33:33",
+  "description": "## 1.1.1 (2026-10-11)\n* Re-release of 1.1.0 with a bundle Morphe Manager can actually load. The 1.1.0 asset was built in the wrong task order and shipped without classes.dex, so Manager rejected it (\"Patch bundle is missing dex entries\") and marked the source failed.\n* Patches are unchanged: Allow screenshots, Hide screenshot detection, plus the four anti-tamper bypasses.\n* If your source shows as failed or lists no patches, update it (or delete and re-add) to pick this up - Manager only re-downloads a bundle when the version changes.\n* Verified in Morphe Manager on an emulator: source loads, 6/6 patches apply to the original Play-signed APK, and the output carries all three screenshot edits plus the 1.0.0 anti-tamper patches.",
+  "download_url": "https://github.com/VipinVIP/railone-patches/releases/download/v1.1.1/patches-1.1.1.mpp",
   "signature_download_url": "",
-  "version": "1.1.0"
+  "version": "1.1.1"
 }
