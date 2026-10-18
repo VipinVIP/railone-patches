@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.1](https://github.com/VipinVIP/railone-patches/compare/v1.2.0...v1.2.1) (2026-10-18)
+
+### 🐛 Bug Fixes
+
+* **Icon:** The themed icon drew the logo smaller than the app's own icon. It now matches.
+
 ## [1.2.0](https://github.com/VipinVIP/railone-patches/compare/v1.1.1...v1.2.0) (2026-10-18)
 
 ### ✨ New Features
