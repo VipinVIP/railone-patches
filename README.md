@@ -28,8 +28,9 @@ Then patch RailOne:
 | **Bypass rjsniffer ADB check** | Neutralises rjsniffer's own `adb_enabled` check, which runs in its isolated `Sniffer` process. |
 | **Allow screenshots** | Removes the `FLAG_SECURE` block the in-app WebView and the bundled `no_screenshot` plugin apply. |
 | **Hide screenshot detection** | Screenshot and screen-recording detection never becomes active. |
+| **Monochrome icon support** | Adds the missing monochrome layer to the adaptive icon, so Material You launchers can tint it. |
 
-All six are enabled by default.
+All seven are enabled by default.
 
 ## Supported versions
 
